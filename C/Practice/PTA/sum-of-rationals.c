@@ -83,3 +83,54 @@ int main()
     return 0;
 }
 
+
+
+#include <stdio.h>
+long gcd(long n,long m) {
+	if(n<0) n=-n;
+    if(m<0) m=-m;
+	long g=m;
+	while(n>0) {
+		g=n;
+		n=m%n;
+		m=g;
+	}
+	return g;
+}
+main() {
+	long n,i,g;
+	long a,b,aa,bb;
+	scanf("%ld",&n);
+	scanf("%ld/%ld",&aa,&bb);
+	for(i=1; i<n; i++) {
+		scanf("%ld/%ld",&a,&b);
+		aa=aa*b+bb*a;
+		bb=bb*b;
+		g=gcd(aa,bb);
+		aa=aa/g;
+		bb=bb/g;
+	}
+	if(aa%bb==0)
+		printf("%ld",aa/bb);
+	else if(aa/bb==0)
+		printf("%ld/%ld",aa%bb,bb);
+	else
+		printf("%ld %ld/%ld",aa/bb,aa%bb,bb);
+	return 0;
+}
+
+/*
+辗转相除法求两个数的gcd：
+
+int gcd(int m; int n)
+{   
+    m = abs(m);
+    n = abs(n);
+    int g = n;
+    while(n > 0){
+        g = n;
+        n = m % n;
+        m = g;
+    }
+}
+*/
