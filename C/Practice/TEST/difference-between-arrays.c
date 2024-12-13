@@ -83,7 +83,7 @@ int main()
 对于数组之类多次用flag的情况，每次用完之后要重新置0
 */
 
-/* python 
+/* python 版本
 # 读取输入
 arr1 = input().split()
 arr2 = input().split()
@@ -106,3 +106,58 @@ output = [x for x in list1 + list2 if x in result]
 print(" ".join(map(str, output)))
 */
 
+
+//二刷 2024.12.12
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+#include<math.h>
+#include<stdlib.h>
+
+int inarry(int* arr, int size, int a);
+
+int main()
+{
+    int arr1[20], arr2[20], dest[40];
+    int n1, n2;
+    int i, j = 0, d;
+    scanf("%d", &n1);
+    for(i = 0; i < n1; i++){
+        scanf("%d", &arr1[i]);
+    }
+    scanf("%d", &n2);
+    for(i = 0; i < n2; i++){
+        scanf("%d", &arr2[i]);
+    }
+    for(i = 0; i < n1; i++){
+        if(!inarry(arr2, n2, arr1[i]) && !inarry(dest, j + 1, arr1[i])){
+            dest[j++] = arr1[i];
+        }
+    }
+    for(i = 0; i < n2; i++){
+        if(!inarry(arr1, n1, arr2[i]) && !inarry(dest, j + 1, arr2[i])){
+            dest[j++] = arr2[i];
+        }
+    }
+    for(i = 0; i < j; i++){
+        if(i == 0){
+            printf("%d", dest[0]);
+        }
+        else{
+            printf(" %d", dest[i]);
+        }
+    }
+    return 0;
+}
+
+int inarry(int* arr, int size, int a)
+{
+    int i;
+    int flag = 0;
+    for(i = 0; i < size; i++){
+        if(arr[i] == a){
+            return 1;
+        }
+    }
+    return 0;
+}
