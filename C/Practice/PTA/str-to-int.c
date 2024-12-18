@@ -35,7 +35,7 @@ int main()
             ans += (str[i] - '0') * pow(16, cnt++);
         }
         if(!isdigit(str[i]) && isxdigit(str[i])){
-            ans += (str[i] - 'a' + 10) * pow(16, cnt++);
+            ans += (str[i] - 'a' + 10) * pow(16, cnt++); //我的问题：大小写不能都用'a' + 10处理，大写不行，所以要像GPT2一样先tolower！
         }
     }
     for(i = 0; i < k; i++){
@@ -55,6 +55,8 @@ int main()
     printf("%d", op * ans);
 }
 
+
+/*GPT1*/
 #include<stdio.h>
 
 int main()
@@ -95,4 +97,48 @@ int main()
     return 0;
 
 }
-//《在西伯利亚森林中》
+/*GPT2*/
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main() {
+    char str[10000];
+    int k = 0, i, negative = 1;
+    long long ans = 0;
+
+    // 输入字符串，以#结束
+    while ((str[k] = getchar()) != '#') {
+        k++;
+    }
+    str[k] = '\0';
+
+    // 检测是否存在负号，且在第一个十六进制字符之前
+    for (i = 0; i < k; i++) {
+        if (isxdigit(str[i])) {
+            break;
+        }
+        if (str[i] == '-') {
+            negative = -1;
+        }
+    }
+
+    // 提取十六进制字符并计算十进制数
+    for (i = 0; i < k; i++) {
+        if (isxdigit(str[i])) {
+            if (isdigit(str[i])) {
+                ans = ans * 16 + (str[i] - '0');
+            } else if (isalpha(str[i])) {
+                ans = ans * 16 + (tolower(str[i]) - 'a' + 10);
+            }
+        }
+    }
+
+    // 处理负号
+    ans *= negative;
+
+    // 输出结果
+    printf("%lld\n", ans);
+    return 0;
+}
