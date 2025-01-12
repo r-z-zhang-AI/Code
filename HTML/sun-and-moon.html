@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Day and Night</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #sky {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #87CEEB;
+            transition: background 1s;
+        }
+
+        .sun, .moon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 223, 0, 0.8);
+            transition: opacity 1s;
+        }
+
+        .sun {
+            background-color: yellow;
+            bottom: 0;
+            left: 0%;
+        }
+
+        .moon {
+            background-color: #f0f8ff;
+            bottom: 0;
+            left: 100%;
+            opacity: 0;
+        }
+
+        /* 太阳的半圆运动路径 (左边升起) */
+        @keyframes sunPath {
+            0% {
+                transform: translateX(-50%) translateY(100px); /* 初始位置在下方左侧 */
+                left: 0%;
+                bottom: 0%;
+            }
+            50% {
+                transform: translateX(-50%) translateY(-50%); /* 半圆顶点 */
+                left: 50%;
+                bottom: 50%;
+            }
+            100% {
+                transform: translateX(-50%) translateY(100px); /* 太阳到达右下角 */
+                left: 100%;
+                bottom: 0%;
+            }
+        }
+
+        /* 月亮的半圆运动路径 (右边升起) */
+        @keyframes moonPath {
+            0% {
+                transform: translateX(-50%) translateY(100px); /* 初始位置在下方右侧 */
+                left: 100%;
+                bottom: 0%;
+                opacity: 0;
+            }
+            50% {
+                transform: translateX(-50%) translateY(-50%); /* 半圆顶点 */
+                left: 50%;
+                bottom: 50%;
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-50%) translateY(100px); /* 月亮到达左下角 */
+                left: 0%;
+                bottom: 0%;
+                opacity: 0;
+            }
+        }
+
+        .day-night-transition {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            font-family: Arial, sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="sky">
+        <div class="sun"></div>
+        <div class="moon"></div>
+        <div class="day-night-transition">Day</div>
+    </div>
+
+    <script>
+        const sky = document.getElementById('sky');
+        const dayNightText = document.querySelector('.day-night-transition');
+        const sun = document.querySelector('.sun');
+        const moon = document.querySelector('.moon');
+
+        let time = 0;
+        setInterval(() => {
+            time = (time + 1) % 24;  // Simulate 24-hour cycle
+
+            // Update the sky background based on time
+            updateSkyBackground(time);
+
+            // Update sun and moon visibility based on time
+            if (time >= 6 && time < 18) {
+                // Daytime (6am to 6pm)
+                sun.style.opacity = 1;
+                moon.style.opacity = 0;
+                sun.style.animation = 'sunPath 12s linear infinite';  // Sun moves along half circle path (from left)
+                moon.style.animation = '';  // Stop moon animation
+            } else {
+                // Nighttime (6pm to 6am)
+                sun.style.opacity = 0;
+                moon.style.opacity = 1;
+                sun.style.animation = '';  // Stop sun animation
+                moon.style.animation = 'moonPath 12s linear infinite';  // Moon moves along half circle path (from right)
+            }
+
+        }, 1000); // 1 second per hour for testing
+
+        function updateSkyBackground(time) {
+            let skyColor;
+            if (time >= 0 && time < 6) {
+                // Early morning (dark)
+                skyColor = '#1d2b64';
+                dayNightText.textContent = 'Night';
+            } else if (time >= 6 && time < 12) {
+                // Morning
+                skyColor = '#87CEEB';
+                dayNightText.textContent = 'Day';
+            } else if (time >= 12 && time < 18) {
+                // Afternoon
+                skyColor = '#87CEEB';
+                dayNightText.textContent = 'Day';
+            } else {
+                // Evening to night
+                skyColor = '#2f4f4f';
+                dayNightText.textContent = 'Night';
+            }
+            sky.style.background = skyColor;
+        }
+    </script>
+</body>
+</html>
+

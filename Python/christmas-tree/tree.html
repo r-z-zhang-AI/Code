@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spiral Christmas Tree</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        canvas {
+            border: 1px solid black;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="treeCanvas" width="600" height="800"></canvas>
+
+    <script>
+        const canvas = document.getElementById("treeCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let spiralAngle = 0; // Start the spiral at an angle of 0 degrees
+
+        // Function to draw a random shape decoration
+        function drawDecoration(x, y) {
+            const shapes = ['circle', 'star', 'square', 'diamond'];
+            const shape = shapes[Math.floor(Math.random() * shapes.length)];
+            const color = ['red', 'gold', 'blue', 'silver', 'pink', 'purple', 'green'][Math.floor(Math.random() * 7)];
+
+            ctx.fillStyle = color;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+
+            switch (shape) {
+                case 'circle':
+                    ctx.beginPath();
+                    ctx.arc(x, y, 8, 0, 2 * Math.PI);
+                    ctx.fill();
+                    break;
+                case 'star':
+                    ctx.beginPath();
+                    ctx.moveTo(x, y - 8);
+                    for (let i = 1; i < 5; i++) {
+                        const angle = i * (Math.PI * 2 / 5);
+                        ctx.lineTo(x + 8 * Math.cos(angle), y - 8 * Math.sin(angle));
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                    break;
+                case 'square':
+                    ctx.fillRect(x - 5, y - 5, 10, 10);
+                    break;
+                case 'diamond':
+                    ctx.beginPath();
+                    ctx.moveTo(x, y - 8);
+                    ctx.lineTo(x + 8, y);
+                    ctx.lineTo(x, y + 8);
+                    ctx.lineTo(x - 8, y);
+                    ctx.closePath();
+                    ctx.fill();
+                    break;
+            }
+        }
+
+        // Function to draw the Christmas tree
+        function drawTree() {
+            const treeHeight = 12;
+            const treeBaseWidth = 100;
+            const treeTopHeight = 30;
+            const treeStartX = canvas.width / 2 - treeBaseWidth / 2;
+            const treeStartY = 50;
+            let currentY = treeStartY;
+            const levelHeight = (canvas.height - 100) / treeHeight;
+
+            // Draw tree body (multiple triangles) - from top small to bottom large
+            for (let i = 0; i < treeHeight; i++) {
+                const levelWidth = treeBaseWidth + (i * 20); // Decrease width as we go up
+                const x0 = canvas.width / 2 - levelWidth / 2;
+                const x1 = canvas.width / 2 + levelWidth / 2;
+                const y0 = currentY;
+                const y1 = currentY + levelHeight;
+
+                // Draw the triangle (Tree's layer)
+                ctx.fillStyle = 'green';
+                ctx.beginPath();
+                ctx.moveTo(x0, y1);
+                ctx.lineTo(x1, y1);
+                ctx.lineTo(canvas.width / 2, y0);
+                ctx.closePath();
+                ctx.fill();
+
+                // Add decorations
+                const numDecorations = Math.floor(Math.random() * 5) + 3;
+                for (let j = 0; j < numDecorations; j++) {
+                    const decorationX = Math.random() * (x1 - x0) + x0;
+                    const decorationY = Math.random() * (y1 - y0) + y0;
+                    drawDecoration(decorationX, decorationY);
+                }
+
+                currentY += levelHeight;
+            }
+
+            // Draw the trunk
+            const trunkWidth = 30;
+            const trunkHeight = 80;
+            ctx.fillStyle = 'brown';
+            ctx.fillRect(canvas.width / 2 - trunkWidth / 2, currentY, trunkWidth, trunkHeight);
+
+            // Draw the golden spiral ribbon (simple representation)
+            ctx.strokeStyle = 'gold';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            const spiralRadius = 120;
+            for (let i = 0; i < 40; i++) {
+                const angle = spiralAngle + Math.PI / 15 * i;
+                const radius = spiralRadius + i * 2;
+                const x = canvas.width / 2 + radius * Math.cos(angle);
+                const y = currentY - i * 2 + radius * Math.sin(angle);
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+
+            // Increment the spiral angle for animation
+            spiralAngle += 0.02;
+            if (spiralAngle > Math.PI * 2) spiralAngle = 0;  // Reset the angle to create a continuous loop
+        }
+
+        // Animation loop to create the moving ribbon
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);  // Clear the canvas
+            drawTree();
+            requestAnimationFrame(animate);  // Call animate recursively for smooth animation
+        }
+
+        animate();  // Start the animation loop
+    </script>
+</body>
+</html>

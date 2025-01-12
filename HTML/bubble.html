@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubble</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to bottom right, #ff7eb3, #ff758c);
+      overflow: hidden;
+    }
+
+    #showcase {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      background: radial-gradient(circle, #ffffff, #ffe4e1);
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      animation: float 10s infinite;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+      }
+      100% {
+        transform: translateY(-200px) scale(1.5);
+      }
+    }
+
+    #message {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.2rem;
+      color: #333;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px 20px;
+      border-radius: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      animation: fadeInOut 3s infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div id="showcase">
+    <div id="message">Welcome to the Dynamic Showcase!</div>
+  </div>
+
+  <script>
+    const showcase = document.getElementById('showcase');
+
+    function createBubble() {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+      
+      const size = Math.random() * 20 + 10; // Random size between 10px and 30px
+      bubble.style.width = `${size}px`;
+      bubble.style.height = `${size}px`;
+
+      bubble.style.left = `${Math.random() * 100}%`; // Random horizontal position
+      bubble.style.animationDuration = `${Math.random() * 5 + 5}s`; // Random duration between 5s and 10s
+      
+      // Random bubble color
+      const colors = ["rgba(255, 255, 255, 0.7)", "rgba(255, 182, 193, 0.7)", "rgba(240, 128, 128, 0.7)", "rgba(255, 228, 225, 0.7)"];
+      bubble.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+      showcase.appendChild(bubble);
+
+      setTimeout(() => bubble.remove(), 10000); // Remove after animation ends
+    }
+
+    setInterval(createBubble, 500); // Create a bubble every 500ms
+  </script>
+</body>
+</html>

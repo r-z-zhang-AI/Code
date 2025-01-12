@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starry Sky</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(180deg, #001d3d, #000a1a); /* 深蓝色渐变背景 */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+
+    .sky {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background-color: white;
+      opacity: 0;
+      animation: starBlink 1.5s infinite alternate;
+    }
+
+    @keyframes starBlink {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .meteor {
+      position: absolute;
+      width: 8px; /* 圆形流星 */
+      height: 8px; /* 圆形流星 */
+      background: white;
+      border-radius: 50%; /* 圆形 */
+      opacity: 0;
+      animation: meteorShower 2s infinite linear, tail 2s infinite linear;
+    }
+
+    @keyframes meteorShower {
+      0% {
+        transform: translate(0, -100%) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(100vw, 100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    /* 流星尾巴效果 */
+    @keyframes tail {
+      0% {
+        box-shadow: 0 0 5px 3px white;
+      }
+      100% {
+        box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sky"></div>
+
+  <script>
+    // Function to create stars
+    function createStar() {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      const size = Math.random() * 3 + 1;
+      const xPos = Math.random() * window.innerWidth;
+      const yPos = Math.random() * window.innerHeight;
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.top = `${yPos}px`;
+      star.style.left = `${xPos}px`;
+      star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+      document.body.appendChild(star);
+    }
+
+    // Function to create meteors
+    function createMeteor() {
+      const meteor = document.createElement('div');
+      meteor.classList.add('meteor');
+      const xPos = Math.random() * window.innerWidth;
+      const yPos = -10;
+      meteor.style.left = `${xPos}px`;
+      meteor.style.top = `${yPos}px`;
+      meteor.style.animationDuration = `${Math.random() * 2 + 1}s`;
+      meteor.style.animationDelay = `${Math.random() * 2}s`;
+      document.body.appendChild(meteor);
+    }
+
+    // Create multiple stars and meteors
+    function generateScene() {
+      // Generate stars
+      for (let i = 0; i < 100; i++) {
+        createStar();
+      }
+
+      // Generate meteors
+      setInterval(() => {
+        createMeteor();
+      }, 400);
+    }
+
+    // Generate scene on page load
+    window.onload = generateScene;
+  </script>
+</body>
+</html>

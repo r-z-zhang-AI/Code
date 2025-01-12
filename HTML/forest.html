@@ -1,0 +1,271 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Forest Scene</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to top, #2e7d32, #81c784);
+      overflow: hidden;
+    }
+
+    #forest {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .tree {
+      position: absolute;
+      bottom: 0;
+      width: 50px;
+      height: 150px;
+      background: linear-gradient(to top, #4caf50, #388e3c);
+      border-radius: 10px;
+      animation: sway 5s infinite ease-in-out;
+    }
+
+    .tree:before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, #66bb6a, #388e3c);
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes sway {
+      0%, 100% {
+        transform: rotate(0deg);
+      }
+      50% {
+        transform: rotate(3deg);
+      }
+    }
+
+    .firefly {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: yellow;
+      border-radius: 50%;
+      box-shadow: 0 0 10px yellow;
+      animation: blink 2s infinite, float 10s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(50px, -50px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="forest"></div>
+
+  <script>
+    const forest = document.getElementById('forest');
+
+    function createTree() {
+      const tree = document.createElement('div');
+      tree.classList.add('tree');
+
+      tree.style.left = `${Math.random() * 100}%`;
+      tree.style.animationDuration = `${Math.random() * 2 + 3}s`;
+
+      forest.appendChild(tree);
+    }
+
+    function createFirefly() {
+      const firefly = document.createElement('div');
+      firefly.classList.add('firefly');
+
+      firefly.style.left = `${Math.random() * 100}%`;
+      firefly.style.bottom = `${Math.random() * 100}%`;
+      firefly.style.animationDuration = `${Math.random() * 3 + 2}s`;
+
+      forest.appendChild(firefly);
+
+      setTimeout(() => firefly.remove(), 10000); // Remove firefly after animation
+    }
+
+    for (let i = 0; i < 20; i++) {
+      createTree();
+    }
+
+    setInterval(createFirefly, 500); // Create fireflies at intervals
+  </script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Night Meadow</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to top, #001f3f, #0074d9);
+      overflow: hidden;
+    }
+
+    #meadow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .grass {
+      position: absolute;
+      bottom: 0;
+      width: 5px;
+      height: 100px;
+      background: linear-gradient(to top, #3cb371, #2e8b57);
+      border-radius: 2px;
+      animation: sway 3s infinite ease-in-out;
+    }
+
+    .flower {
+      position: absolute;
+      bottom: 50px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff69b4, #ff1493);
+      animation: sway 3s infinite ease-in-out;
+    }
+
+    .flower:before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ff4500;
+    }
+
+    @keyframes sway {
+      0%, 100% {
+        transform: rotate(0deg);
+      }
+      50% {
+        transform: rotate(2deg);
+      }
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0);
+      }
+      50% {
+        transform: translate(30px, -30px);
+      }
+      100% {
+        transform: translate(0, 0);
+      }
+    }
+
+    .firefly {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: yellow;
+      border-radius: 50%;
+      box-shadow: 0 0 10px yellow;
+      animation: blink 2s infinite, float 6s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="meadow"></div>
+
+  <script>
+    const meadow = document.getElementById('meadow');
+
+    function createGrass() {
+      const grass = document.createElement('div');
+      grass.classList.add('grass');
+
+      grass.style.left = `${Math.random() * 100}%`;
+      grass.style.animationDuration = `${Math.random() * 2 + 3}s`;
+
+      meadow.appendChild(grass);
+
+      if (Math.random() > 0.8) {
+        const flower = document.createElement('div');
+        flower.classList.add('flower');
+
+        flower.style.left = `${Math.random() * 100}%`;
+        flower.style.animationDuration = grass.style.animationDuration;
+
+        meadow.appendChild(flower);
+      }
+    }
+
+    function createFirefly() {
+      const firefly = document.createElement('div');
+      firefly.classList.add('firefly');
+
+      firefly.style.left = `${Math.random() * 100}%`;
+      firefly.style.bottom = `${Math.random() * 100}%`;
+      firefly.style.animationDuration = `${Math.random() * 3 + 2}s`;
+
+      meadow.appendChild(firefly);
+
+      setTimeout(() => firefly.remove(), 6000); // Remove firefly after animation
+    }
+
+    for (let i = 0; i < 50; i++) {
+      createGrass();
+    }
+
+    setInterval(createFirefly, 500); // Create fireflies at intervals
+  </script>
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern City</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+    .scene-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            transition: background-color 5s ease, background-image 5s ease;
+        }
+
+    .city {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background-color: #333;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+
+    .building {
+            position: absolute;
+            width: 50px;
+            height: 150px;
+            background-color: #555;
+            border-radius: 5px;
+            bottom: 0;
+            animation: buildingAnim 4s ease-in-out infinite;
+        }
+
+        @keyframes buildingAnim {
+            0% {
+                height: 100px;
+                background-color: #555;
+            }
+
+            50% {
+                height: 150px;
+                background-color: #888;
+            }
+
+            100% {
+                height: 100px;
+                background-color: #555;
+            }
+        }
+
+    .sun {
+            position: absolute;
+            top: 50px;
+            left: 91%;
+            width: 100px;
+            height: 100px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            transition: top 3s ease-in-out, left 3s ease-in-out;
+            cursor: pointer;
+        }
+
+    .cloud {
+            position: absolute;
+            background-color: white;
+            width: 200px;
+            height: 100px;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: cloudAnim 5s linear infinite;
+        }
+
+        @keyframes cloudAnim {
+            0% {
+                left: -250px;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+    .cloud1 {
+            top: 100px;
+            animation-duration: 6s;
+        }
+
+    .cloud2 {
+            top: 200px;
+            animation-duration: 8s;
+        }
+
+    .cloud3 {
+            top: 150px;
+            animation-duration: 7s;
+        }
+
+    .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none;
+            opacity: 0;
+            transition: opacity 3s ease;
+        }
+
+    .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+    .interaction-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #FF6347;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+    .interaction-btn:hover {
+            background-color: #FF4500;
+        }
+
+    .btn-animate {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #32CD32;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 10px;
+            animation: bounce 1s infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-20px);
+            }
+        }
+
+    .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+    .overlay-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+    .overlay h2 {
+            margin-bottom: 20px;
+        }
+
+    .overlay button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+    .overlay button:hover {
+            background-color: #45a049;
+        }
+
+        /* Car styles */
+    .car {
+            position: absolute;
+            width: 90px;
+            height: 50px;
+            background-color: #FF6347;
+            border-radius: 10px;
+            bottom: 50px;
+            animation: moveCar 10s linear infinite;
+        }
+
+        @keyframes moveCar {
+            0% {
+                left: -100px;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Person styles */
+    .person {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #FFD700;
+            border-radius: 50%;
+            bottom: 50px;
+            animation: movePerson 6s linear infinite;
+        }
+
+        @keyframes movePerson {
+            0% {
+                left: -30px;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scene-container" id="scene">
+        <div class="city" id="city">
+            <div class="building" style="left: 10%; animation-duration: 6s;"></div>
+            <div class="building" style="left: 20%; animation-duration: 5s;"></div>
+            <div class="building" style="left: 30%; animation-duration: 7s;"></div>
+        <div class="building" style="left: 40%; animation-duration: 6.5s;"></div>
+        <div class="building" style="left: 50%; animation-duration: 7s;"></div>
+        <div class="building" style="left: 60%; animation-duration: 8s;"></div>
+        </div>
+        <div class="sun" id="sun"></div>
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="stars" id="stars">
+            <div class="star" style="top: 30px; left: 100px;"></div>
+            <div class="star" style="top: 100px; left: 300px;"></div>
+            <div class="star" style="top: 200px; left: 500px;"></div>
+            <div class="star" style="top: 400px; left: 700px;"></div>
+            <div class="star" style="top: 500px; left: 900px;"></div>
+        </div>
+        <button class="interaction-btn" id="changeSceneBtn">Switch to Night</button>
+        <div class="overlay" id="overlay">
+            <div class="overlay-content">
+                <h2>Do you want to switch the scene?</h2>
+                <button id="confirmBtn">Confirm</button>
+                <button id="cancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const changeSceneBtn = document.getElementById('changeSceneBtn');
+        const overlay = document.getElementById('overlay');
+        const confirmBtn = document.getElementById('confirmBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const stars = document.getElementById('stars');
+        const sun = document.getElementById('sun');
+        const scene = document.getElementById('scene');
+        const city = document.getElementById('city');
+
+        let isDay = true;
+        let isManualSwitching = false;
+
+        // 更精确地根据时间获取天空颜色、太阳位置以及星星透明度
+        function getTimeBasedSceneInfo() {
+            const date = new Date();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const time = hours + minutes / 60;
+            let skyColor;
+            let sunPosition;
+            let starsOpacity;
+
+            if (time >= 6 && time < 7) {
+                skyColor = 'linear-gradient(#FF7F50, #87CEEB)';
+                sunPosition = '50%';
+                starsOpacity = 0;
+            } else if (time >= 7 && time < 18) {
+                skyColor = '#87CEEB';
+                sunPosition = '50%';
+                starsOpacity = 0;
+            } else if (time >= 18 && time < 19) {
+                skyColor = 'linear-gradient(#FF4500, #2C3E50)';
+                sunPosition = '50%';
+                starsOpacity = 0;
+            } else {
+                skyColor = '#2C3E50';
+                sunPosition = '-100%';
+                starsOpacity = 1;
+            }
+
+            return { skyColor, sunPosition, starsOpacity };
+        }
+
+        // 更新天空相关元素的函数，包括背景、太阳、星星
+        function updateSky() {
+            const { skyColor, sunPosition, starsOpacity } = getTimeBasedSceneInfo();
+            scene.style.transition = 'background-color 5s ease, background-image 5s ease';
+            scene.style.background = skyColor;
+            sun.style.top = sunPosition;
+            sun.style.display = starsOpacity === 0? 'block' : 'none';
+            stars.style.opacity = starsOpacity;
+            stars.style.display = starsOpacity === 1? 'block' : 'none';
+        }
+
+        // 初始更新天空
+        updateSky();
+        // 每隔一分钟更新天空
+        setInterval(updateSky, 60000);
+
+        changeSceneBtn.addEventListener('click', () => {
+            if (!isManualSwitching) {
+                isManualSwitching = true;
+                overlay.style.display = 'flex';
+            }
+        });
+
+        confirmBtn.addEventListener('click', () => {
+            if (!isManualSwitching) {
+                return;
+            }
+            isDay =!isDay;
+            updateScene(isDay);
+            isManualSwitching = false;
+            overlay.style.display = 'none';
+            changeSceneBtn.textContent = isDay? 'Switch to Night' : 'Switch to Day';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            isManualSwitching = false;
+            overlay.style.display = 'none';
+        });
+
+        // 新增点击太阳图标切换到白天场景的逻辑
+        sun.addEventListener('click', () => {
+            if (!isDay) {
+                isDay = true;
+                updateScene(isDay);
+                changeSceneBtn.textContent = 'Switch to Night';
+            }
+        });
+
+        // 统一的更新场景函数，根据传入的是否白天参数来设置场景元素状态
+        function updateScene(isDayParam) {
+            const { skyColor, sunPosition, starsOpacity } = getTimeBasedSceneInfo();
+            scene.style.transition = 'background-color 5s ease, background-image 5s ease';
+            scene.style.background = isDayParam? skyColor : '#2C3E50';
+            sun.style.display = isDayParam? 'block' : 'none';
+            sun.style.top = isDayParam? sunPosition : '-100%';
+            stars.style.opacity = isDayParam? starsOpacity : 1;
+            stars.style.display = isDayParam? (starsOpacity === 1? 'block' : 'none') : 'block';
+        }
+
+        // Generate random cars and people
+        function generateMovingElements() {
+            // Random Car
+            let car = document.createElement('div');
+            car.classList.add('car');
+            car.style.bottom = `${Math.random() * 100 + 50}px`;
+            car.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            car.style.backgroundColor = getRandomColor();
+            scene.appendChild(car);
+
+            // Random Person
+            let person = document.createElement('div');
+            person.classList.add('person');
+            person.style.bottom = `${Math.random() * 100 + 50}px`;
+            person.style.animationDuration = `${Math.random() * 4 + 3}s`;
+            person.style.backgroundColor = getRandomColor();
+            scene.appendChild(person);
+        }
+
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        // Generate elements every 3 seconds
+        setInterval(generateMovingElements, 3000);
+    </script>
+</body>
+
+</html>

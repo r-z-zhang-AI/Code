@@ -1,0 +1,26 @@
+// Organization Structure
+digraph {
+	A [label=CEO]
+	B [label=COO]
+	C [label=CFO]
+	D [label=CTO]
+	E [label=CHRO]
+	F [label="Marketing Department"]
+	G [label="R&D Department"]
+	H [label="Finance Department"]
+	I [label="HR Department"]
+	J [label="Sales Department"]
+	K [label="Legal Department"]
+	L [label="Admin Department"]
+	A -> B
+	A -> C
+	A -> D
+	A -> E
+	B -> F
+	B -> G
+	C -> H
+	E -> I
+	D -> J
+	C -> K
+	C -> L
+}
